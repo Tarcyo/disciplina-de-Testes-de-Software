@@ -1,75 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-
-enum StatusLeilao {
-  ABERTO,
-  FINALIZADO,
-  EXPIRADO,
-  INATIVO,
-}
-
-class Leilao {
-  String _nomeProduto;
-  DateTime _inicio;
-  DateTime _fim;
-  double _lanceMinimo;
-  double _lanceAtual;
-  StatusLeilao? _statusLeilao;
-
-  Leilao(this._nomeProduto, this._inicio, this._fim, this._lanceMinimo,
-      this._lanceAtual);
-
-  // Getters
-  String get nomeProduto => _nomeProduto;
-  DateTime get inicio => _inicio;
-  DateTime get fim => _fim;
-  double get lanceMinimo => _lanceMinimo;
-  double get lanceAtual => _lanceAtual;
-  StatusLeilao? get statusLeilao => _statusLeilao;
-
-  // Setters
-  set nomeProduto(String nomeProduto) => _nomeProduto = nomeProduto;
-  set inicio(DateTime inicio) => _inicio = inicio;
-  set fim(DateTime fim) => _fim = fim;
-  set lanceMinimo(double lanceMinimo) => _lanceMinimo = lanceMinimo;
-  set lanceAtual(double lanceAtual) => _lanceAtual = lanceAtual;
-  set statusLeilao(StatusLeilao? statusLeilao) => _statusLeilao = statusLeilao;
-
-  defineStatusLeilao(DateTime now) {
-    if (_inicio.isBefore(now) && now.isBefore(_fim)) {
-      _statusLeilao = StatusLeilao.ABERTO;
-    } else if (now.isBefore(_inicio)) {
-      _statusLeilao = StatusLeilao.INATIVO;
-    } else if (now.isAfter(_fim)) {
-      _statusLeilao = StatusLeilao.EXPIRADO;
-    }
-  }
-
-  finalizaLeilao() {
-    if (_statusLeilao == StatusLeilao.ABERTO ||
-        _statusLeilao == StatusLeilao.EXPIRADO) {
-      _statusLeilao = StatusLeilao.FINALIZADO;
-    }
-  }
-}
-
-class CasaDeLeiloes {
-  String _codigo;
-  List<Leilao> _leiloes;
-
-  CasaDeLeiloes(this._codigo, this._leiloes);
-
-  // Getters
-  String get codigo => _codigo;
-  List<Leilao> get leiloes => _leiloes;
-
-  // Setters
-  set codigo(String codigo) => _codigo = codigo;
-  set leiloes(List<Leilao> leiloes) => _leiloes = leiloes;
-
-  List<Leilao> filtraLeiloes(StatusLeilao status) {
-    return _leiloes.where((leilao) => leilao.statusLeilao == status).toList();
-  }
-}
+import 'leilao.dart';
+import 'casaDeLeiloes.dart';
 
 void main() {
   group("Testes de casa de leilão:", () {
@@ -148,6 +79,5 @@ void main() {
       expect(leiloesFinalizados.length, equals(1));
       expect(leiloesFinalizados.first.nomeProduto, equals("Bicicleta"));
     });
-
   });
 }

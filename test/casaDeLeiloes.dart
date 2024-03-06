@@ -12,4 +12,8 @@ class CasaDeLeiloes {
   // Setters
   set codigo(String codigo) => _codigo = codigo;
   set leiloes(List<Leilao> leiloes) => _leiloes = leiloes;
+
+  List<Leilao> filtraLeiloes(StatusLeilao status) {
+    return _leiloes.where((leilao) => leilao.statusLeilao == status).toList();
+  }
 }
