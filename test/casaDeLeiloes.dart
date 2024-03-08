@@ -1,4 +1,6 @@
 import 'leilao.dart';
+
+
 class CasaDeLeiloes {
   String _codigo;
   List<Leilao> _leiloes;

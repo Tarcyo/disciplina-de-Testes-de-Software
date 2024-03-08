@@ -1,4 +1,6 @@
+import 'participante.dart';
 import 'lance.dart';
+
 
 enum StatusLeilao {
   ABERTO,
@@ -15,6 +17,7 @@ class Leilao {
   List<Lance> _lances = [];
   double _lanceAtual;
   StatusLeilao? _statusLeilao;
+  Participante? _ganhador;
 
   Leilao(this._nomeProduto, this._inicio, this._fim, this._valorLanceMinimo,
       this._lanceAtual);
@@ -27,6 +30,7 @@ class Leilao {
   double get lanceAtual => _lanceAtual;
   StatusLeilao? get statusLeilao => _statusLeilao;
   List<Lance> get lances => _lances;
+  Participante? get ganhador => _ganhador;
   // Setters
   set nomeProduto(String nomeProduto) => _nomeProduto = nomeProduto;
   set inicio(DateTime inicio) => _inicio = inicio;
@@ -52,8 +56,12 @@ class Leilao {
       if (lances.isEmpty) {
         _statusLeilao = StatusLeilao.FINALIZADO;
         return 'O leilão não possui lances!';
+      } else {
+        _ganhador=lances.last.cliente;
+        return 'email enviado para '+_ganhador!.email.toString();
+        
       }
-    } else {
+    }else{
       return 'O leilão não pode ser finalizado!';
     }
   }
@@ -78,5 +86,10 @@ class Leilao {
 
     _lances.add(lance);
     return 'Lance aceito!';
+  }
+
+ List<Lance> retornaListaDeLances(){
+    return lances;
+
   }
 }

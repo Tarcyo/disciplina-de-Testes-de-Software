@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'lance.dart';
-import 'cliente.dart';
+import 'participante.dart';
 import 'leilao.dart';
 
 void main() {
@@ -10,7 +10,7 @@ void main() {
           Leilao('Bolsa', DateTime(2024, 3, 1), DateTime(2024, 3, 2), 100, 0);
 
       leilao.defineStatusLeilao(DateTime.now());
-      Lance lance = Lance(1, 120, Cliente('001', 'João'));
+      Lance lance = Lance(1, 120, Participante('001', 'João','aleatorio@gmail.com'));
 
       final resultado = leilao.recebeLance(lance);
 
@@ -27,7 +27,7 @@ void main() {
 
       leilao.defineStatusLeilao(DateTime.now());
 
-      Lance lance = Lance(1, 90, Cliente('001', 'João'));
+      Lance lance = Lance(1, 90, Participante('001', 'João','aleatorio@gmail.com'));
 
       final resultado = leilao.recebeLance(lance);
 
@@ -46,10 +46,10 @@ void main() {
 
       leilao.defineStatusLeilao(DateTime.now());
 
-      Lance lanceInicial = Lance(1, 120.0, Cliente('001', 'João'));
+      Lance lanceInicial = Lance(1, 120.0, Participante('001', 'João','aleatorio@gmail.com'));
       leilao.recebeLance(lanceInicial);
 
-      Lance lanceMenor = Lance(2, 110.0, Cliente('002', 'Maria'));
+      Lance lanceMenor = Lance(2, 110.0, Participante('002', 'Maria','aleatorio2@gmail.com'));
 
       String resultado = leilao.recebeLance(lanceMenor);
 
@@ -68,7 +68,7 @@ void main() {
 
       leilao.defineStatusLeilao(DateTime.now());
 
-      final cliente = Cliente('001', 'João');
+      final cliente = Participante('001', 'João','aleatorio@gmail.com');
 
       Lance lanceInicial = Lance(1, 120.0, cliente);
       leilao.recebeLance(lanceInicial);
@@ -93,7 +93,7 @@ void main() {
 
       leilao.defineStatusLeilao(DateTime.now());
 
-      Lance lanceValido = Lance(1, 120.0, Cliente('001', 'João'));
+      Lance lanceValido = Lance(1, 120.0, Participante('001', 'João','aleatorio@gmail.com'));
 
       String resultado = leilao.recebeLance(lanceValido);
 
@@ -115,21 +115,20 @@ void main() {
 
       leilao.defineStatusLeilao(DateTime.now());
 
-      Lance lance1 = Lance(1, 120.0, Cliente('001', 'João'));
-      Lance lance2 = Lance(2, 150.0, Cliente('002', 'Maria'));
-      Lance lance3 = Lance(3, 180.0, Cliente('003', 'Pedro'));
+      Lance lance1 = Lance(1, 120.0, Participante('001', 'João','aleatorio@gmail.com'));
+      Lance lance2 = Lance(2, 150.0, Participante('002', 'Maria','aleatoria@gmail.com'));
+      Lance lance3 = Lance(3, 180.0, Participante('003', 'Pedro','aleatorio2@gmail.com'));
 
       final resultado1 = leilao.recebeLance(lance1);
       final resultado2 = leilao.recebeLance(lance2);
       final resultado3 = leilao.recebeLance(lance3);
 
-      leilao.recebeLance(lance1);
 
       expect(resultado1, 'Lance aceito!');
       expect(resultado2, 'Lance aceito!');
       expect(resultado3, 'Lance aceito!');
-      expect(leilao.lances.length, 3);
-      expect(leilao.lances.last.valor, 180.0);
+      expect(leilao.lances.length, equals(3));
+      expect(leilao.lances.last.valor, equals(180));
     });
   });
 }
