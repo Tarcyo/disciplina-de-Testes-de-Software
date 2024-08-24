@@ -44,6 +44,7 @@ class Leilao {
   set statusLeilao(StatusLeilao? statusLeilao) => _statusLeilao = statusLeilao;
   set lances(List<Lance> lances) => _lances;
 
+  //Número 2, 3 e 4
   defineStatusLeilao(DateTime now) {
     if (_inicio.isBefore(now) && now.isBefore(_fim)) {
       _statusLeilao = StatusLeilao.ABERTO;
@@ -54,6 +55,50 @@ class Leilao {
     }
   }
 
+  //Número 5 e 6
+  String finalizaLeilao(ServicoEmail servicoEmail) {
+    if (_statusLeilao == StatusLeilao.ABERTO ||
+        _statusLeilao == StatusLeilao.EXPIRADO) {
+      if (lances.isEmpty) {
+        _statusLeilao = StatusLeilao.FINALIZADO;
+        return 'O leilão não possui lances!';
+      } else {
+        _ganhador = lances.last.cliente;
+        servicoEmail.enviaEmail(this);
+        return 'email enviado para ' + _ganhador!.email.toString();
+      }
+    } else {
+      return 'O leilão não pode ser finalizado!';
+    }
+  }
+
+  //Número 7, 8 e 9
+  String recebeLance(Lance lance) {
+    if (lance.valor <= 0) {
+      throw ArgumentError('O leilão deve ser maior que 0!');
+    }
+    if (_statusLeilao != StatusLeilao.ABERTO) {
+      return 'O leilão não está aberto e não pode receber lances!';
+    }
+
+    if (lance.valor < lanceMinimo) {
+      return 'O lance é menor que o lance mínimo!';
+    }
+
+    if (_lances.isNotEmpty && lance.valor <= _lances.last.valor) {
+      return 'O lance deve ser maior ao último lance!';
+    }
+
+    if (_lances.isNotEmpty &&
+        lance.cliente.codigo == _lances.last.cliente.codigo) {
+      return 'O mesmo cliente não pode fazer um lance duas vezes seguidas!';
+    }
+
+    _lances.add(lance);
+    return 'Lance aceito!';
+  }
+
+  // Número 10
   void cadastraNovoParticipante(Participante participante) {
     if (participante.codigo.isEmpty) {
       throw ArgumentError('Código de participante inválido.');
@@ -80,53 +125,12 @@ class Leilao {
     participantes.add(participante);
   }
 
-  bool _validarEmail(String email) {
-    // Expressão regular para validar email
-    final RegExp regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    return regex.hasMatch(email);
+  //Número 11
+  List<Lance> retornaListaDeLances() {
+    return lances;
   }
 
-  String finalizaLeilao(ServicoEmail servicoEmail) {
-    if (_statusLeilao == StatusLeilao.ABERTO ||
-        _statusLeilao == StatusLeilao.EXPIRADO) {
-      if (lances.isEmpty) {
-        _statusLeilao = StatusLeilao.FINALIZADO;
-        return 'O leilão não possui lances!';
-      } else {
-        _ganhador = lances.last.cliente;
-        servicoEmail.enviaEmail(this);
-        return 'email enviado para ' + _ganhador!.email.toString();
-      }
-    } else {
-      return 'O leilão não pode ser finalizado!';
-    }
-  }
-
-  String recebeLance(Lance lance) {
-    if (lance.valor <= 0) {
-      throw ArgumentError('O leilão deve ser maior que 0!');
-    }
-    if (_statusLeilao != StatusLeilao.ABERTO) {
-      return 'O leilão não está aberto e não pode receber lances!';
-    }
-
-    if (lance.valor < lanceMinimo) {
-      return 'O lance é menor que o lance mínimo!';
-    }
-
-    if (_lances.isNotEmpty && lance.valor <= _lances.last.valor) {
-      return 'O lance deve ser maior ao último lance!';
-    }
-
-    if (_lances.isNotEmpty &&
-        lance.cliente.codigo == _lances.last.cliente.codigo) {
-      return 'O mesmo cliente não pode fazer um lance duas vezes seguidas!';
-    }
-
-    _lances.add(lance);
-    return 'Lance aceito!';
-  }
-
+  //Número 12
   Lance retornaMaiorLance() {
     return _lances.last;
   }
@@ -135,7 +139,9 @@ class Leilao {
     return _lances[0];
   }
 
-  List<Lance> retornaListaDeLances() {
-    return lances;
+  bool _validarEmail(String email) {
+    // Expressão regular para validar email
+    final RegExp regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return regex.hasMatch(email);
   }
 }

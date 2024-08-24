@@ -5,6 +5,8 @@ import 'model/leilao.dart';
 
 void main() {
   group("Testes de lances:", () {
+
+    //Número 7
     test('verifica se não está aceitando lances em leilões não-abertos', () {
       Leilao leilao = Leilao("01", 'Bolsa', DateTime(2024, 3, 1),
           DateTime(2024, 3, 2), 100, 0, []);

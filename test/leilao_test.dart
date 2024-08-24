@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'model/leilao.dart';
 import 'model/lance.dart';
 import 'model/participante.dart';
 import 'model/servicoEmail.dart';
-import 'package:mockito/mockito.dart';
 
 class MockLeilao extends Mock implements Leilao {}
 
@@ -11,7 +11,7 @@ class MockServicoEmail extends Mock implements ServicoEmail {}
 
 void main() {
   group("Testes de leilão:", () {
-    test("Verifica se o leilão está aberto", () {
+    test("Verifica se o leilão está sendo definido aberto", () {
       DateTime now = DateTime.now();
       DateTime inicio = now.subtract(Duration(hours: 1));
       DateTime fim = now.add(Duration(hours: 3));
@@ -22,7 +22,7 @@ void main() {
       expect(leilao.statusLeilao, equals(StatusLeilao.ABERTO));
     });
 
-    test("Verifica se o leilão está inativo", () {
+    test("Verifica se o leilão está sendo definido inativo", () {
       DateTime now = DateTime.now();
       DateTime inicio = now.add(Duration(hours: 2));
       DateTime fim = now.add(Duration(hours: 15));
@@ -33,7 +33,7 @@ void main() {
       expect(leilao.statusLeilao, equals(StatusLeilao.INATIVO));
     });
 
-    test("Verifica se o leilão está expirado", () {
+    test("Verifica se o leilão sestá sendo definido expirado", () {
       DateTime now = DateTime.now();
       DateTime inicio = now.subtract(Duration(hours: 10));
       DateTime fim = now.subtract(Duration(hours: 2));

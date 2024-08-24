@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'model/leilao.dart';
 import 'model/casaDeLeiloes.dart';
-import 'package:mockito/mockito.dart';
 import 'model/registroLeilao.dart';
 import 'model/servicoEmail.dart';
 
@@ -10,7 +10,12 @@ class MockRegistroLeilao extends Mock implements RegistroLeilao {}
 class MockServicoEmail extends Mock implements ServicoEmail {}
 
 void main() {
+
+
+
   group("Testes de casa de leilão:", () {
+
+    //Número 1
     test("Verifica se os leilões abertos estão sendo filtrados corretamente",
         () {
       Leilao leilao1 = Leilao(

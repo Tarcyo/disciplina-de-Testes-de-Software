@@ -10,6 +10,12 @@ class CasaDeLeiloes {
   // Getters
   List<Leilao> get leiloes => _leiloes;
 
+
+   //Número 1
+   List<Leilao> filtraLeiloes(StatusLeilao status) {
+    return _leiloes.where((leilao) => leilao.statusLeilao == status).toList();
+  }
+
   void adicionaNovoLeilao(Leilao leilao, RegistroLeilao registroLeilao) {
     if (leilao.nomeProduto == "") {
       throw ArgumentError('O leilão não tem um nome válido');
@@ -43,7 +49,5 @@ class CasaDeLeiloes {
     throw ArgumentError('Não é possível atualizar o leilao!');
   }
 
-  List<Leilao> filtraLeiloes(StatusLeilao status) {
-    return _leiloes.where((leilao) => leilao.statusLeilao == status).toList();
-  }
+ 
 }
